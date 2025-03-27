@@ -1,0 +1,15 @@
+name: foundation-sdk-basic-example
+
+services:
+  grafana:
+    image: grafana/grafana:11.2.8
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_PATHS=/etc/grafana/provisioning
+
+volumes:
+  grafana-storage:

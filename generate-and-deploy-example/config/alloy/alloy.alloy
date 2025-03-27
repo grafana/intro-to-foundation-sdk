@@ -1,0 +1,58 @@
+livedebugging {
+  enabled = true
+}
+
+local.file_match "applogs" {
+    path_targets = [{"__path__" = "/tmp/logs/app.log"}]
+}
+
+prometheus.remote_write "default" {
+    endpoint {
+        url = "http://prometheus:9090/api/v1/write"
+    }
+}
+
+prometheus.scrape "web_server" {
+    scrape_interval = "15s"
+    targets =[{
+        __address__ = "web-server:5001",
+    }]
+
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+loki.source.file "local_files" {
+    targets    = local.file_match.applogs.targets
+    forward_to = [loki.process.add_new_label.receiver]
+}
+
+loki.process "add_new_label" {
+    stage.logfmt {
+        mapping = {
+            "service" = "service",
+            "level" = "level",
+            "msg" = "msg",
+            "source" = "source",
+        }
+    }
+
+    stage.labels {
+        values = {
+            "level" = "level",
+            "service" = "service",
+            "source" = "source",
+        }
+    }
+
+    stage.output { 
+        source = "msg"
+    }
+
+     forward_to = [loki.write.local_loki.receiver]
+}
+
+loki.write "local_loki" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}

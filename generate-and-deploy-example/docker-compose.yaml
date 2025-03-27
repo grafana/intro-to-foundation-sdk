@@ -1,0 +1,92 @@
+name: foundation-sdk-generate-and-deploy-example
+
+services:
+  grafana:
+    image: grafana/grafana:11.2.8
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_PATHS=/etc/grafana/provisioning
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  prometheus:
+    image: prom/prometheus:v2.53.4
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-remote-write-receiver"
+    volumes:
+      - ./config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+
+  loki:
+    image: grafana/loki:3.4.2
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/loki.yaml
+    volumes:
+      - ./config/loki/loki.yaml:/etc/loki/loki.yaml
+
+  alloy:
+    image: grafana/alloy:v1.7.5
+    ports:
+      - "12345:12345"
+    command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/alloy.alloy
+    volumes:
+      - ./config/alloy/alloy.alloy:/etc/alloy/alloy.alloy
+      - tmp-logs:/tmp/logs
+    depends_on:
+      grafana:
+        condition: service_healthy
+      prometheus:
+        condition: service_started
+      loki:
+        condition: service_started
+
+  web-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - tmp-logs:/tmp/logs
+
+  dashboard-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["--deploy-dashboard"]
+    environment:
+      - GRAFANA_HOST=grafana:3000
+    depends_on:
+      grafana:
+        condition: service_healthy
+    volumes:
+      - tmp-logs:/tmp/logs
+
+  k6:
+    image: grafana/k6:0.45.0
+    command: ["run", "/scripts/k6-test-script.js"]
+    volumes:
+      - tmp-logs:/tmp/logs
+      - ./k6-test-script.js:/scripts/k6-test-script.js
+    depends_on:
+      web-server:
+        condition: service_started
+
+volumes:
+  grafana-storage:
+  tmp-logs:
+  loki-data:

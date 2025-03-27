@@ -1,0 +1,35 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+*.env
+.env.*
+
+# Logs and debug files
+*.log
+*.trace
+*.prof
+*.pprof
+
+# Coverage files
+coverage.out
+*.coverprofile

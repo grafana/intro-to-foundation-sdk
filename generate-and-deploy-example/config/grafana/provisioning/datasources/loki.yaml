@@ -1,0 +1,12 @@
+# config file version
+apiVersion: 1
+
+datasources:
+  - uid: loki
+    name: Loki
+    type: loki
+    access: proxy
+    editable: false
+    enabled: true
+    url: http://loki:3100
+    withCredentials: false

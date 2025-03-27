@@ -1,0 +1,7 @@
+# config file version
+apiVersion: 1
+
+datasources:
+  - uid: testdata
+    name: TestData
+    type: testdata
