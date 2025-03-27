@@ -17,12 +17,13 @@ This example sets up a complete stack, including:
 - **Grafana**
 - **Prometheus**
 - **Loki**
+- **Alloy**
 
 It also includes a dummy web application that:
-- Uses **Alloy** to pull metrics and logs.
-- Has the capability to generate and deploy its own dashboard.
+- Exposes metrics and logs for monitoring.
+- Automatically generates and deploys its own dashboard.
 
-This example showcases how to integrate multiple tools in the Grafana ecosystem and automate dashboard creation.
+This example demonstrates how to integrate multiple tools in the Grafana ecosystem and automate dashboard creation.
 
 ## Getting Started
 To explore the examples, clone this repository and follow the instructions provided in each example's directory.
@@ -32,6 +33,14 @@ git clone https://github.com/grafana/intro-to-foundation-sdk.git
 cd intro-to-foundation-sdk
 ```
 
+Before running any Go examples, ensure you have the required dependencies by running:
+
+```bash
+go mod tidy
+```
+
+This command will download and install the necessary Go modules for the project.
+
 ## Instructions for Running the Examples
 
 ### 1. Basic Example
@@ -40,16 +49,20 @@ To generate a Grafana dashboard JSON file, follow these steps:
     ```bash
     cd basic-example
     ```
-2. Run the following command to generate the dashboard JSON in the terminal output:
+2. Run the following command to ensure all dependencies are installed:
+    ```bash
+    go mod tidy
+    ```
+3. Run the following command to generate the dashboard JSON in the terminal output:
     ```bash
     go run main.go
     ```
-3. To start Grafana using Docker Compose, run:
+4. To start Grafana using Docker Compose, run:
     ```bash
     docker compose up
     ```
-4. Once Grafana is running, access it at [http://localhost:3000](http://localhost:3000).
-5. Import the generated dashboard JSON into Grafana manually.
+5. Once Grafana is running, access it at [http://localhost:3000](http://localhost:3000).
+6. Import the generated dashboard JSON into Grafana manually.
 
 This process allows you to visualize the generated dashboard in a local Grafana instance.
 
@@ -59,11 +72,15 @@ To spin up the entire stack, follow these steps:
     ```bash
     cd generate-and-deploy-example
     ```
-2. Use Docker Compose to build and start the stack:
+2. Run the following command to ensure all dependencies are installed:
+    ```bash
+    go mod tidy
+    ```
+3. Use Docker Compose to build and start the stack:
     ```bash
     docker compose up --build
     ```
-3. Once the stack is running, you can access the following services:
+4. Once the stack is running, you can access the following services:
     - **Grafana**: [http://localhost:3000](http://localhost:3000)
     - **Web Application**: [http://localhost:5001](http://localhost:5001)
     - **Prometheus**: [http://localhost:9090](http://localhost:9090)
