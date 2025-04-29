@@ -1,0 +1,45 @@
+name: Deploy Grafana Dashboard
+
+on:
+  push:
+    branches:
+      - main
+      - tom/github-actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Go 1.24.2
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24.2
+      
+      - name: Verify Go version
+        run: go version
+
+      - name: Download and Extract grafanactl
+        run: |
+          curl -L -o grafanactl-x86_64.tar.gz https://github.com/grafana/grafanactl/releases/download/v0.0.3/grafanactl_Linux_x86_64.tar.gz
+          tar -xzf grafanactl-x86_64.tar.gz
+          chmod +x grafanactl
+          sudo mv grafanactl /usr/local/bin/grafanactl
+
+      - name: Install TypeScript dependencies
+        run: npm install
+      
+      - name: Generate Dashboard JSON
+        run: npx ts-node main.ts
+      
+      - name: Deploy Dashboard with grafanactl
+        env:
+          GRAFANA_SERVER: ${{ variables.GRAFANA_SERVER }}
+          GRAFANA_STACK_ID: ${{ variables.GRAFANA_STACK_ID }}
+          GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
+        run: |
+          grafanactl resources push dashboards --config sample-dashboard.yml  --overwrite
+          

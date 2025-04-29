@@ -88,6 +88,10 @@ To spin up the entire stack, follow these steps:
 
 The k6 script will automatically generate web traffic, and the web service dashboard will be provisioned in Grafana.
 
+### 3. GitHub Actions Example
+
+TODO
+
 ## Contributing
 Contributions are welcome! Feel free to open issues or submit pull requests to improve the examples or add new ones.
 
