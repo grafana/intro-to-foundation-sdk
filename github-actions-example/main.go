@@ -59,16 +59,16 @@ func main() {
 		log.Fatalf("failed to build dashboard: %v", err)
 	}
 
-	dashboardWrapper := DashboardWrapper{
-		APIVersion: "dashboard.grafana.app/v1alpha1",
-		Kind:       "Dashboard",
-		Metadata: Metadata{
-			Name: "sample-dashboard",
-		},
-		Spec: dashboard,
-	}
+	// dashboardWrapper := DashboardWrapper{
+	// 	APIVersion: "dashboard.grafana.app/v1alpha1",
+	// 	Kind:       "Dashboard",
+	// 	Metadata: Metadata{
+	// 		Name: "sample-dashboard",
+	// 	},
+	// 	Spec: dashboard,
+	// }
 
-	dashboardJson, err := json.MarshalIndent(dashboardWrapper, "", "  ")
+	dashboardJson, err := json.MarshalIndent(dashboard, "", "  ")
 	if err != nil {
 		log.Fatalf("failed to marshal dashboard: %v", err)
 	}
