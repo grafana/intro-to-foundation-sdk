@@ -1,0 +1,50 @@
+name: Deploy Grafana Dashboard
+
+on:
+  push:
+    branches:
+      - main
+      - tom/github-actions
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Go 1.24.2
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24.2
+      
+      - name: Verify Go version
+        run: go version
+
+      - name: Download and Extract grafanactl
+        run: |
+          curl -L -o grafanactl-x86_64.tar.gz "https://github.com/grafana/grafanactl/releases/download/${{ vars.GRAFANACTL_VERSION }}/grafanactl_Linux_x86_64.tar.gz"
+          tar -xzf grafanactl-x86_64.tar.gz
+          chmod +x grafanactl
+          sudo mv grafanactl /usr/local/bin/grafanactl
+      
+      - name: Generate Dashboard JSON
+        run: go run main.go
+        working-directory: ./github-actions-example
+      
+      - name: Deploy Dashboard with grafanactl
+        env:
+          GRAFANA_SERVER: ${{ vars.GRAFANA_SERVER }}
+          GRAFANA_STACK_ID: ${{ vars.GRAFANA_STACK_ID }}
+          GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
+        run: |
+          if [ -f sample-dashboard.json ]; then
+            echo "sample-dashboard.json exists, deploying dashboard."
+            grafanactl resources push dashboards --path ./sample-dashboard.json
+          else
+            echo "sample-dashboard.json does not exist."
+            exit 1
+          fi
+        working-directory: ./github-actions-example
+          
