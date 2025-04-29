@@ -24,7 +24,7 @@ jobs:
 
       - name: Download and Extract grafanactl
         run: |
-          curl -L -o grafanactl-x86_64.tar.gz https://github.com/grafana/grafanactl/releases/download/v0.0.3/grafanactl_Linux_x86_64.tar.gz
+          curl -L -o grafanactl-x86_64.tar.gz "https://github.com/grafana/grafanactl/releases/download/${{ vars.GRAFANACTL_VERSION }}/grafanactl_Linux_x86_64.tar.gz"
           tar -xzf grafanactl-x86_64.tar.gz
           chmod +x grafanactl
           sudo mv grafanactl /usr/local/bin/grafanactl
@@ -41,7 +41,7 @@ jobs:
         run: |
           if [ -f sample-dashboard.json ]; then
             echo "sample-dashboard.json exists, deploying dashboard."
-            grafanactl resources push dashboards --config sample-dashboard.json  --overwrite
+            grafanactl resources push dashboards --path ./sample-dashboard.json
           else
             echo "sample-dashboard.json does not exist."
             exit 1
