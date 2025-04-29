@@ -38,7 +38,7 @@ func main() {
 		Timezone(common.TimeZoneBrowser).
 		WithPanel(
 			stat.NewPanelBuilder().
-				Title("Version").
+				Title("Version (Edited)").
 				Datasource(testdataRef).
 				ReduceOptions(common.NewReduceDataOptionsBuilder().
 					Calcs([]string{"lastNotNull"}).
