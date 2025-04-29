@@ -29,14 +29,13 @@ jobs:
           chmod +x grafanactl
           sudo mv grafanactl /usr/local/bin/grafanactl
 
-      - name: Change directory to github-actions-example
-        run: cd github-actions-example
-
       - name: Install TypeScript dependencies
         run: npm install
+        working-directory: ./github-actions-example
       
       - name: Generate Dashboard JSON
         run: npx ts-node main.ts
+        working-directory: ./github-actions-example
       
       - name: Deploy Dashboard with grafanactl
         env:
@@ -45,4 +44,5 @@ jobs:
           GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
         run: |
           grafanactl resources push dashboards --config sample-dashboard.yml  --overwrite
+        working-directory: ./github-actions-example
           
