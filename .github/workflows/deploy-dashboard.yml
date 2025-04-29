@@ -37,8 +37,8 @@ jobs:
       
       - name: Deploy Dashboard with grafanactl
         env:
-          GRAFANA_SERVER: ${{ variables.GRAFANA_SERVER }}
-          GRAFANA_STACK_ID: ${{ variables.GRAFANA_STACK_ID }}
+          GRAFANA_SERVER: ${{ vars.GRAFANA_SERVER }}
+          GRAFANA_STACK_ID: ${{ vars.GRAFANA_STACK_ID }}
           GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
         run: |
           grafanactl resources push dashboards --config sample-dashboard.yml  --overwrite
