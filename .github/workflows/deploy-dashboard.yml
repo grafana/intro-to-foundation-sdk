@@ -41,7 +41,7 @@ jobs:
         run: |
           if [ -f sample-dashboard.json ]; then
             echo "sample-dashboard.json exists, deploying dashboard."
-            grafanactl resources push dashboards --config sample-dashboard.yml  --overwrite
+            grafanactl resources push dashboards --config sample-dashboard.json  --overwrite
           else
             echo "sample-dashboard.json does not exist."
             exit 1
