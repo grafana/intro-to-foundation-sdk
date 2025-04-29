@@ -26,11 +26,16 @@ type Metadata struct {
 
 func main() {
 	testdataRef := dashboard.DataSourceRef{
-		Type: cog.ToPtr("grafana-testdata-datasource"),
-		Uid:  cog.ToPtr("testdata"),
+		Type: cog.ToPtr("TestData"),
+		Uid:  cog.ToPtr("grafana-testdata-datasource"),
 	}
 
 	builder := dashboard.NewDashboardBuilder("My Dashboard").
+		Uid("my-dashboard").
+		Tags([]string{"generated", "foundation-sdk", "go", "github-actions"}).
+		Refresh("5m").
+		Time("now-1h", "now").
+		Timezone(common.TimeZoneBrowser).
 		WithPanel(
 			stat.NewPanelBuilder().
 				Title("Version").
@@ -63,7 +68,7 @@ func main() {
 		APIVersion: "dashboard.grafana.app/v1beta1",
 		Kind:       "Dashboard",
 		Metadata: Metadata{
-			Name: "sample-dashboard",
+			Name: "my-dashboard",
 		},
 		Spec: dashboard,
 	}
