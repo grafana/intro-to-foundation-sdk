@@ -39,6 +39,12 @@ jobs:
           GRAFANA_STACK_ID: ${{ vars.GRAFANA_STACK_ID }}
           GRAFANA_TOKEN: ${{ secrets.GRAFANA_TOKEN }}
         run: |
-          grafanactl resources push dashboards --config sample-dashboard.yml  --overwrite
+          if [ -f sample-dashboard.json ]; then
+            echo "sample-dashboard.json exists, deploying dashboard."
+            grafanactl resources push dashboards --config sample-dashboard.yml  --overwrite
+          else
+            echo "sample-dashboard.json does not exist."
+            exit 1
+          fi
         working-directory: ./github-actions-example
           
