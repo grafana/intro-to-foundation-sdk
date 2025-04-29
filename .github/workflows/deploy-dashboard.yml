@@ -29,6 +29,9 @@ jobs:
           chmod +x grafanactl
           sudo mv grafanactl /usr/local/bin/grafanactl
 
+      - name: Change directory to github-actions-example
+        run: cd github-actions-example
+
       - name: Install TypeScript dependencies
         run: npm install
       
