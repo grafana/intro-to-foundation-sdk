@@ -30,8 +30,8 @@ jobs:
           sudo mv grafanactl /usr/local/bin/grafanactl
       
       - name: Generate Dashboard JSON
-        run: go run main.go
         working-directory: ./github-actions-example
+        run: go run main.go
       
       - name: Deploy Dashboard with grafanactl
         env:
