@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/go-openapi/strfmt v0.23.0
-	github.com/grafana/grafana-foundation-sdk/go v0.0.0-20250310114924-e8eb8530bc7c
+	github.com/grafana/grafana-foundation-sdk/go v0.0.12
 	github.com/prometheus/client_golang v1.21.1
 )
 
