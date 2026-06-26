@@ -2,7 +2,7 @@ name: foundation-sdk-generate-and-deploy-example
 
 services:
   grafana:
-    image: grafana/grafana:11.2.8
+    image: grafana/grafana:11.6.16@sha256:d67af92050b8d93b393dc741864752a69c9da1ffa39c1bb9af49ad5d9e47d2c3
     ports:
       - "3000:3000"
     volumes:
