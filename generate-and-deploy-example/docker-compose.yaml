@@ -39,7 +39,7 @@ services:
       - ./config/loki/loki.yaml:/etc/loki/loki.yaml
 
   alloy:
-    image: grafana/alloy:v1.7.5
+    image: grafana/alloy:v1.20.1@sha256:2aa2099af76c0098d4af7a4d6e48f86cb66dc1a000222ad927a1c67c6542d13f
     ports:
       - "12345:12345"
     command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/alloy.alloy
