@@ -2,7 +2,7 @@ name: foundation-sdk-basic-example
 
 services:
   grafana:
-    image: grafana/grafana:11.2.8
+    image: grafana/grafana:11.2.8@sha256:b65bcd6ce2563fc4ca7b3e63358098c99708e74a751272efd6efcb2219cfe54a
     ports:
       - "3000:3000"
     volumes:
