@@ -13,7 +13,7 @@ COPY . .
 RUN go build -o server *.go
 
 # Use a minimal image for the final container
-FROM alpine:3.21.3
+FROM alpine:3.21.10@sha256:769c0a0cb2a64409697b54551072ee46ee1e36d4b369ddafd671b02a5d16e0e5
 WORKDIR /app
 COPY --from=builder /app/server ./
 
