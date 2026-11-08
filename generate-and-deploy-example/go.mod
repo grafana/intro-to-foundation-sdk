@@ -1,6 +1,6 @@
 module grafana.com/foundation-sdk-generate-and-deploy-example
 
-go 1.22.3
+go 1.25.0
 
 require (
 	github.com/go-openapi/strfmt v0.23.0
@@ -17,7 +17,7 @@ require (
 	github.com/prometheus/common v0.62.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.44.0 // indirect
 	google.golang.org/protobuf v1.36.1 // indirect
 )
 
