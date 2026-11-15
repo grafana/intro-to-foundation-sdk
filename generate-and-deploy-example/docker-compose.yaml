@@ -77,7 +77,7 @@ services:
       - tmp-logs:/tmp/logs
 
   k6:
-    image: grafana/k6:0.45.0
+    image: grafana/k6:2.4.0@sha256:d41bb79cd8de5a7ad619b53570e3712633e8bff0937010a5c6c57a4747e7a276
     command: ["run", "/scripts/k6-test-script.js"]
     volumes:
       - tmp-logs:/tmp/logs
