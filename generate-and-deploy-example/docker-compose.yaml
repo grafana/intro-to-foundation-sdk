@@ -2,7 +2,7 @@ name: foundation-sdk-generate-and-deploy-example
 
 services:
   grafana:
-    image: grafana/grafana:11.2.8
+    image: grafana/grafana:11.2.8@sha256:b65bcd6ce2563fc4ca7b3e63358098c99708e74a751272efd6efcb2219cfe54a
     ports:
       - "3000:3000"
     volumes:
@@ -21,7 +21,7 @@ services:
       start_period: 10s
 
   prometheus:
-    image: prom/prometheus:v2.53.4
+    image: prom/prometheus:v2.53.4@sha256:502ad90314c7485892ce696cb14a99fceab9fc27af29f4b427f41bd39701a199
     ports:
       - "9090:9090"
     command:
@@ -31,7 +31,7 @@ services:
       - ./config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
 
   loki:
-    image: grafana/loki:3.4.2
+    image: grafana/loki:3.4.2@sha256:58a6c186ce78ba04d58bfe2a927eff296ba733a430df09645d56cdc158f3ba08
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/loki.yaml
@@ -39,7 +39,7 @@ services:
       - ./config/loki/loki.yaml:/etc/loki/loki.yaml
 
   alloy:
-    image: grafana/alloy:v1.7.5
+    image: grafana/alloy:v1.7.5@sha256:b92703c13c32c20d629ffd89f40287ed385c12a335a7c9f31c720a5f912f9d6f
     ports:
       - "12345:12345"
     command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/alloy.alloy
@@ -77,7 +77,7 @@ services:
       - tmp-logs:/tmp/logs
 
   k6:
-    image: grafana/k6:0.45.0
+    image: grafana/k6:0.45.0@sha256:10683d5b3803e61567476136b6dcf4ac06df67bdc4a1c9fbbeab61bc916ccd77
     command: ["run", "/scripts/k6-test-script.js"]
     volumes:
       - tmp-logs:/tmp/logs
